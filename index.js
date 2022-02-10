@@ -1,4 +1,6 @@
+
 const express = require('express');
+const port = parseInt(process.env.PORT) || 8080;
 const app = express();
 
 app.get('/', (req, res) => {
@@ -6,7 +8,12 @@ app.get('/', (req, res) => {
   res.send(`Held ${name}!`);
 });
 
-const port = parseInt(process.env.PORT) || 8080;
+app.get('/error', (req, res)=>{
+  res.status(500); 
+  res.send(`Error 500`); 
+})
+
+
 app.listen(port, () => {
   console.log(`helloworld: listening on port ${port}`);
 });
