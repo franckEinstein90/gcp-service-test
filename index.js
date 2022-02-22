@@ -18,6 +18,14 @@ app.get('/', (req, res) => {
   res.render('home', {layout: false});
 });
 
+app.get('/memoryUsage', (req, res)=>{
+  const used = process.memoryUsage();
+  const str = []; 
+  for (let key in used) {
+    str.push((`${key} ${Math.round(used[key] / 1024 / 1024 * 100) / 100} MB`)); 
+  }
+  res.send(str.join('<BR/>')); 
+})
 
 app.get('/cpu', (req, res)=>{
   const cpus = os.cpus().map(c => c.times.user).join('<br/>'); 
