@@ -11,7 +11,7 @@ app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', './views');
 
-
+const rand_0_x = x => Math.floor(Math.random() * x);
 
 app.get('/', (req, res) => {
   const name = process.env.NAME || 'World';
@@ -44,8 +44,18 @@ app.get('/error400', (req, res)=>{
 
 
 app.get('/error500', (req, res)=>{
-  res.status(500); 
-  res.send(`Error 500`); 
+  //generates a random 5xx error between 500 and
+  //511 included
+  let errorCode = rand_0_x(11).toString();
+  if (errorCode.length === 1) 
+    {
+      errorCode = '50' + errorCode; 
+    }
+  else {
+    errorCode = '5' + errorCode; 
+  }
+  res.status(+errorCode); 
+  res.send(`Created error ${errorCode}`); 
 }); 
 
 
