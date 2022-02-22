@@ -4,7 +4,7 @@ const path = require('path');
 
 const port = parseInt(process.env.PORT) || 8080;
 const app = express();
-
+const os = require('os'); 
 
 const APICan = {    //this is the app
   faviconPath     : __dirname + '/public/LOGO139x139.png', 
@@ -22,6 +22,13 @@ app.get('/', (req, res) => {
   const name = process.env.NAME || 'World';
   res.send(`Held ${name}!`);
 });
+
+
+app.get('/cpu', (req, res)=>{
+
+  const cpus = os.cpus().map(c => c.times.user).join('<br/>'); 
+  res.send(`<h1>cpus</h1>:${cpus}<br/>`); 
+})
 
 app.get('/ok220', (req, res) => {
   res.status(220); 
