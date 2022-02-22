@@ -23,6 +23,11 @@ app.get('/', (req, res) => {
   res.send(`Held ${name}!`);
 });
 
+app.get('/ok220', (req, res) => {
+  res.status(220); 
+  res.send(`Ok 220`);
+});
+
 app.get('/error400', (req, res)=>{
   res.status(400); 
   res.send("Error 400"); 
