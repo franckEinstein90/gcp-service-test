@@ -2,7 +2,12 @@
 
 <div>
     <h1>Generate Errors</h1>
-    <button onclick="generate5x500()">Generate 5 500 errors</button> 
+
+    <button onclick="generate5x500()">Generate 5 random 5xx errors</button>
+<!--    Number of calls
+    timeSpan (m) 
+    400 and 500 error (percentage)-->
+
 </div>
 
 <h1>Timer</h1>
@@ -10,11 +15,27 @@
 </div>
 
 <h1>Memory Information (backend)</h1>
-<div class="mem-display">
+<div>
+    <button onclick="allocateMemory()">Allocate memory</button>
 </div>
 
+<div style="display:flex">
+
+    <div class="adhoc-memory-store">
+    </div>
+
+    <div class="mem-display">
+    </div>
+</div>
 
 <script>
+
+    const allocateMemory = async ()=>{
+        const url='/addMem';
+        const info = await fetch(url); 
+        debugger; 
+        return 0; 
+    }
 
     const generate5x500 = async ()=>{
         const url='/error500';
@@ -28,6 +49,7 @@
     }
 
     let ctr = 0; 
+
     const myTimer = ()=>{
         ctr+=1; 
         document.querySelector('.counter-display').innerHTML = ctr.toString(); 

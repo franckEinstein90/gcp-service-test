@@ -6,17 +6,27 @@ import os from 'os';
 
 const port = parseInt(process.env.PORT) || 8080;
 const app = express();
-
+const memoryStore = [];
+ 
 app.engine('handlebars', engine()); 
 app.set('view engine', 'handlebars');
 app.set('views', './views');
 
-const rand_0_x = x => Math.floor(Math.random() * x);
+
+
 
 app.get('/', (req, res) => {
   const name = process.env.NAME || 'World';
   res.render('home', {layout: false});
 });
+
+
+app.get('/addMem', (req, res)=>{
+  for(let i=0; i<100; i++) {
+    memoryStore.push(1); 
+  }
+  res.send(memoryStore.length); 
+}); 
 
 app.get('/memoryUsage', (req, res)=>{
   const used = process.memoryUsage();
@@ -24,6 +34,7 @@ app.get('/memoryUsage', (req, res)=>{
   for (let key in used) {
     str.push((`${key} ${Math.round(used[key] / 1024 / 1024 * 100) / 100} MB`)); 
   }
+  str.push(`custom mem store ${memoryStore.length}`)
   res.send(str.join('<BR/>')); 
 })
 
