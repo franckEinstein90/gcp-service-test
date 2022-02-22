@@ -1,31 +1,25 @@
 
-const express = require('express');
-const path = require('path'); 
+import express from 'express';
+import { engine } from 'express-handlebars'; 
+import path from 'path';
+import os from 'os'; 
 
 const port = parseInt(process.env.PORT) || 8080;
 const app = express();
-const os = require('os'); 
 
-const APICan = {    //this is the app
-  faviconPath     : __dirname + '/public/LOGO139x139.png', 
-  process         : {
-      id : process.pid
-  },  
-  root            : __dirname, 
-  settingsDB      : 'settings.db', 
-  stats           : {}, 
-  staticFolder    : path.join(__dirname, 'public'),
-  expressStack    : app  
-}
+app.engine('handlebars', engine()); 
+app.set('view engine', 'handlebars');
+app.set('views', './views');
+
+
 
 app.get('/', (req, res) => {
   const name = process.env.NAME || 'World';
-  res.send(`Held ${name}!`);
+  res.render('home', {layout: false});
 });
 
 
 app.get('/cpu', (req, res)=>{
-
   const cpus = os.cpus().map(c => c.times.user).join('<br/>'); 
   res.send(`<h1>cpus</h1>:${cpus}<br/>`); 
 })

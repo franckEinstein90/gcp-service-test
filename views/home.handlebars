@@ -1,0 +1,32 @@
+<h1>Test cloud run application</h1>
+
+
+<button onclick="generate5x500()">Generate 5 500 errors</button> 
+
+<div class="counter-display">
+</div>
+
+<script>
+
+    const generate5x500 = async ()=>{
+        const url='/error500';
+        const promiseArray = []; 
+
+        for(let i=0; i<5;i++){
+            promiseArray.push(fetch(url)); 
+        }
+        return Promise.all(promiseArray)
+        .then(_ => alert('done')); 
+    }
+
+    let ctr = 0; 
+    const myTimer = ()=>{
+        ctr+=1; 
+        document.querySelector('.counter-display').innerHTML = ctr.toString(); 
+/*        const url='/error500';
+        return fetch(url)
+            .then( response => response.text() )
+            .then( text => alert(text) ); */
+    };
+    setInterval(myTimer, 1000); 
+</script>
