@@ -72,7 +72,7 @@ app.get('/error400', (req, res)=>{
 app.get('/error500', (req, res)=>{
   //generates a random 5xx error between 500 and
   //511 included
-  let errorCode = rand_0_x(11).toString();
+  let errorCode = Math.floor(Math.random() * 12).toString(); 
   if (errorCode.length === 1) 
     {
       errorCode = '50' + errorCode; 

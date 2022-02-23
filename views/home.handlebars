@@ -28,12 +28,46 @@
 </div>
 
 <script>
+    const generateRandom500 = async()=>{
+        const url='/error500';
+        const request = await fetch(url); 
+        const response = await request.text(); 
+        alert(response); 
+    }
 
     const allocateMemory = async ()=>{
         const url='/addMem';
         const info = await fetch(url); 
         debugger; 
         return 0; 
+    }
+
+    const generateRandomRequestsOverOneMinute = async (numberOfRequests)=>{
+        //get the current time
+        const myTimer = ()=>{
+        ctr+=1; 
+        document.querySelector('.counter-display').innerHTML = ctr.toString(); 
+        return getCPUInformation()
+        .then(_ => getMemoryUsage())
+        .then(_ => 'ok'); 
+
+        setInterval(myTimer, 1000); 
+
+   };
+//
+    } 
+
+    const generateRandomRequests = async()=>{
+        let numberOfRequest = 20; 
+        const minutes = 1; 
+        let minutesLeft = minutes;
+/*        while(minutesLeft > 1) {
+            calculateMinutesLeft(); 
+            avgNumberOfRequest = numberOfRequest / minutesLeft; 
+            const generatedRequests = await generateRandomRequests({duration:1, avgNumberOfRequest}); 
+            numberOfRequest-=generatedRequests; 
+        }*/
+
     }
 
     const generate5x500 = async ()=>{
