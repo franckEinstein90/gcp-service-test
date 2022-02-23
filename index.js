@@ -4,8 +4,7 @@ import { engine } from 'express-handlebars';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import os from 'os';
-import {cpuUsage, cpuCount}  from 'os-utils'; 
-
+import {cpuUsage, cpuCount, freemem, totalmem, freememPercentage}  from 'os-utils'; 
 import {viewSystem} from "./src/viewSystem.js"; 
 
 const __filename = fileURLToPath(import.meta.url); 
@@ -26,29 +25,38 @@ app.get('/', (req, res) => {
 
 app.get('/addMem', (req, res)=>{
   for(let i=0; i<100; i++) {
-    memoryStore.push(1); 
+    memoryStore.push('Adding memory'); 
   }
   res.send(memoryStore.length); 
 }); 
 
 app.get('/memoryUsage', (req, res)=>{
-  const used = process.memoryUsage();
+  const currentMemoryUsage = freemem();
+  const currentFreeMemory = freemem();
+  const totalMemory = totalmem(); 
+
+  const memInfo = [
+    `Total: ${totalMemory}`, 
+    `Free: ${currentFreeMemory}`,
+    `=${freememPercentage().toFixed(2)*100}%`
+
+  ]; 
+/*  const used = process.memoryUsage();
   const str = []; 
   for (let key in used) {
     str.push((`${key} ${Math.round(used[key] / 1024 / 1024 * 100) / 100} MB`)); 
-  }
-  str.push(`custom mem store ${memoryStore.length}`)
-  const cpus = os.cpus().map(c => c.times.user).join('<br/>'); 
-  str.push(`<h1>cpus</h1>:${cpus}<br/>`); 
-  res.send(str.join('<BR/>')); 
+  }*/
+  memInfo.push(`<hr/> Memory array current allocation: ${memoryStore.length}`)
+
+  /*  const cpus = os.cpus().map(c => c.times.user).join('<br/>'); 
+  str.push(`<h1>cpus</h1>:${cpus}<br/>`); */
+  res.send(memInfo.join('<BR/>')); 
 })
 
 app.get('/cpu', (req, res)=>{
   const cpuNum = `This backend is using ${cpuCount()} cpus`;  
   res.send(cpuNum); 
 })
-
-
 
 app.get('/ok220', (req, res) => {
   res.status(220); 
