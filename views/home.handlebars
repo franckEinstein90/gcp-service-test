@@ -1,24 +1,23 @@
-<h1>Test cloud run application</h1>
+<h1>Simulator for Cloudrun application alerts</h1>
+<p>This is a simulator to test alert and policies in gcp</p>
 
-<div>
-    <h1>Generate Errors</h1>
-
-    <button onclick="generate5x500()">Generate 5 random 5xx errors</button>
-<!--    Number of calls
-    timeSpan (m) 
-    400 and 500 error (percentage)-->
-
+<div class="request-error-tests">
+    {{>errorTests}}
 </div>
 
 <h1>Timer</h1>
 <div class="counter-display">
 </div>
 
+<div class="cpu-simulation">
+    {{>cpuTests}}
+</div>
+
+
 <h1>Memory Information (backend)</h1>
 <div>
     <button onclick="allocateMemory()">Allocate memory</button>
 </div>
-
 <div style="display:flex">
 
     <div class="adhoc-memory-store">
@@ -50,13 +49,32 @@
 
     let ctr = 0; 
 
+    const getCPUInformation = ()=>{
+        const url="/cpu"; 
+        return fetch(url)
+        .then( response => response.text())
+        .then(cpuInfo =>{
+            document.querySelector('.cpuInfo').innerHTML = cpuInfo; 
+            return 'ok'
+        })
+    };
+
+    const getMemoryUsage = ()=>{
+        const url='/memoryUsage';
+        return fetch(url)
+        .then( response => response.text() )
+        .then( text => {
+            document.querySelector('.mem-display').innerHTML = text;  
+            return 'ok'; 
+        })
+    };
+
     const myTimer = ()=>{
         ctr+=1; 
         document.querySelector('.counter-display').innerHTML = ctr.toString(); 
-        const url='/memoryUsage';
-        return fetch(url)
-            .then( response => response.text() )
-            .then( text => document.querySelector('.mem-display').innerHTML = text);  
-    };
+        return getCPUInformation()
+        .then(_ => getMemoryUsage())
+        .then(_ => 'ok'); 
+   };
     setInterval(myTimer, 1000); 
 </script>

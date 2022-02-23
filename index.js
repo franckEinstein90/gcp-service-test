@@ -2,17 +2,20 @@
 import express from 'express';
 import { engine } from 'express-handlebars'; 
 import path from 'path';
-import os from 'os'; 
+import { fileURLToPath } from 'url';
+import os from 'os';
+import {cpuUsage, cpuCount}  from 'os-utils'; 
+
+import {viewSystem} from "./src/viewSystem.js"; 
+
+const __filename = fileURLToPath(import.meta.url); 
+const rootPath = path.dirname(__filename); 
 
 const port = parseInt(process.env.PORT) || 8080;
 const app = express();
 const memoryStore = [];
- 
-app.engine('handlebars', engine()); 
-app.set('view engine', 'handlebars');
-app.set('views', './views');
 
-
+viewSystem({app, rootPath}); 
 
 
 app.get('/', (req, res) => {
@@ -35,13 +38,17 @@ app.get('/memoryUsage', (req, res)=>{
     str.push((`${key} ${Math.round(used[key] / 1024 / 1024 * 100) / 100} MB`)); 
   }
   str.push(`custom mem store ${memoryStore.length}`)
+  const cpus = os.cpus().map(c => c.times.user).join('<br/>'); 
+  str.push(`<h1>cpus</h1>:${cpus}<br/>`); 
   res.send(str.join('<BR/>')); 
 })
 
 app.get('/cpu', (req, res)=>{
-  const cpus = os.cpus().map(c => c.times.user).join('<br/>'); 
-  res.send(`<h1>cpus</h1>:${cpus}<br/>`); 
+  const cpuNum = `This backend is using ${cpuCount()} cpus`;  
+  res.send(cpuNum); 
 })
+
+
 
 app.get('/ok220', (req, res) => {
   res.status(220); 
