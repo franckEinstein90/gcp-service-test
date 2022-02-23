@@ -58,8 +58,10 @@ app.get('/cpu', (req, res)=>{
   res.send(cpuNum); 
 })
 
-app.get('/ok220', (req, res) => {
-  res.status(220); 
+app.get('/ok200', (req, res) => {
+  let responseCode = Math.floor(Math.random() * 6).toString(); 
+  responseCode = '20' + errorCode; 
+  res.status(responseCode); 
   res.send(`Ok 220`);
 });
 

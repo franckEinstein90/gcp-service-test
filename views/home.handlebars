@@ -28,6 +28,14 @@
 </div>
 
 <script>
+
+    const generateRandom200 = async()=>{
+        const url='/ok200';
+        const request = await fetch(url); 
+        const response = await request.text(); 
+        alert(response); 
+    }
+
     const generateRandom500 = async()=>{
         const url='/error500';
         const request = await fetch(url); 
