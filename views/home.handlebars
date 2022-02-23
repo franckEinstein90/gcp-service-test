@@ -35,6 +35,14 @@
         alert(response); 
     }
 
+    const generateRandom400 = async()=>{
+        const url='/error400';
+        const request = await fetch(url); 
+        const response = await request.text(); 
+        alert(response); 
+    }
+
+
     const allocateMemory = async ()=>{
         const url='/addMem';
         const info = await fetch(url); 

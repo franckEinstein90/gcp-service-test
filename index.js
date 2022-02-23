@@ -64,14 +64,16 @@ app.get('/ok220', (req, res) => {
 });
 
 app.get('/error400', (req, res)=>{
-  res.status(400); 
-  res.send("Error 400"); 
+  //generates a random 5xx error between 400 and 418 included
+  let errorCode = Math.floor(Math.random() * 18).toString(); 
+  errorCode = errorCode.length === 1 ? '40' + errorCode : '4' + errorCode; 
+  res.status(errorCode); 
+  res.send(`Created error ${errorCode}`); 
 }); 
 
 
 app.get('/error500', (req, res)=>{
-  //generates a random 5xx error between 500 and
-  //511 included
+  //generates a random 5xx error between 500 and 511 included
   let errorCode = Math.floor(Math.random() * 12).toString(); 
   if (errorCode.length === 1) 
     {
