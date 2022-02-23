@@ -38,14 +38,14 @@ app.get('/memoryUsage', (req, res)=>{
   const memInfo = [
     `Total: ${totalMemory}`, 
     `Free: ${currentFreeMemory}`,
-    `=${freememPercentage().toFixed(2)*100}%`
+    `=${freememPercentage()}%`
 
   ]; 
-/*  const used = process.memoryUsage();
-  const str = []; 
+  const used = process.memoryUsage();
   for (let key in used) {
-    str.push((`${key} ${Math.round(used[key] / 1024 / 1024 * 100) / 100} MB`)); 
-  }*/
+    memInfo.push((`${key} ${Math.round(used[key] / 1024 / 1024 * 100) / 100} MB`)); 
+  }
+
   memInfo.push(`<hr/> Memory array current allocation: ${memoryStore.length}`)
 
   /*  const cpus = os.cpus().map(c => c.times.user).join('<br/>'); 
