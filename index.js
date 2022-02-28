@@ -47,15 +47,15 @@ app.get('/memoryUsage', (req, res)=>{
   }
 
   memInfo.push(`<hr/> Memory array current allocation: ${memoryStore.length}`)
-
-  /*  const cpus = os.cpus().map(c => c.times.user).join('<br/>'); 
-  str.push(`<h1>cpus</h1>:${cpus}<br/>`); */
   res.send(memInfo.join('<BR/>')); 
 })
 
 app.get('/cpu', (req, res)=>{
   const cpuNum = `This backend is using ${cpuCount()} cpus`;  
-  res.send(cpuNum); 
+  const cpuModel = 
+  /*  const cpus = os.cpus().map(c => c.times.user).join('<br/>'); 
+  str.push(`<h1>cpus</h1>:${cpus}<br/>`); */
+   res.send(cpuNum); 
 })
 
 app.get('/ok200', (req, res) => {
@@ -66,10 +66,10 @@ app.get('/ok200', (req, res) => {
 });
 
 app.get('/error400', (req, res)=>{
-  //generates a random 5xx error between 400 and 418 included
+  //generates a random 4xx error between 400 and 418 included
   let errorCode = Math.floor(Math.random() * 18).toString(); 
   errorCode = errorCode.length === 1 ? '40' + errorCode : '4' + errorCode; 
-  res.status(errorCode); 
+  res.status(+errorCode); 
   res.send(`Created error ${errorCode}`); 
 }); 
 
@@ -77,13 +77,7 @@ app.get('/error400', (req, res)=>{
 app.get('/error500', (req, res)=>{
   //generates a random 5xx error between 500 and 511 included
   let errorCode = Math.floor(Math.random() * 12).toString(); 
-  if (errorCode.length === 1) 
-    {
-      errorCode = '50' + errorCode; 
-    }
-  else {
-    errorCode = '5' + errorCode; 
-  }
+  errorCode = errorCode.length === 1 ?  errorCode = '50' + errorCode : errorCode = '5' + errorCode; 
   res.status(+errorCode); 
   res.send(`Created error ${errorCode}`); 
 }); 
