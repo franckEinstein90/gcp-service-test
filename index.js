@@ -68,7 +68,7 @@ app.get('/ok200', (req, res) => {
 app.get('/error400', (req, res)=>{
   //generates a random 4xx error between 400 and 418 included
   let errorCode = Math.floor(Math.random() * 18).toString(); 
-  errorCode = errorCode.length === 1 ? '40' + errorCode : '4' + errorCode; 
+  errorCode = errorCode.length === 1 ? errorCode = '40' + errorCode : errorCode = '4' + errorCode; 
   res.status(+errorCode); 
   res.send(`Created error ${errorCode}`); 
 }); 
